@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: springboot-k8s-mysql
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -14,33 +14,21 @@ spec:
     spec:
       containers:
         - name: springboot-crud-k8s
-          image: springboot-crud-k8s:1.0
+          image: amitjoshi5731/springboot-crud-k8s
           ports:
             - containerPort: 8080
           env:   # Setting Enviornmental Variables
             - name: DB_HOST   # Setting Database host address from configMap
-              valueFrom :
-                configMapKeyRef :
-                  name : db-config
-                  key :  host
+              value: mysql
 
             - name: DB_NAME  # Setting Database name from configMap
-              valueFrom :
-                configMapKeyRef :
-                  name : db-config
-                  key :  dbName
+              value: newdb
 
             - name: DB_USERNAME  # Setting Database username from Secret
-              valueFrom :
-                secretKeyRef :
-                  name : mysql-secrets
-                  key :  username
+              value: root
 
             - name: DB_PASSWORD # Setting Database password from Secret
-              valueFrom :
-                secretKeyRef :
-                  name : mysql-secrets
-                  key :  password
+              value: password
 
 ---
 
